@@ -18,6 +18,7 @@ function createCard(card){
   cardElement.querySelector('.card__title').textContent = card.name;
   const cardDelete= cardElement.querySelector('.card__delete-button');
   cardDelete.addEventListener('click', () => handleDeleteCard(cardElement));
+  recyclingImage(cardElement);
   return cardElement;
 }
 
@@ -33,9 +34,40 @@ initialCards.forEach((cards) => {
   renderCard(createCard(cards,cardTemplate) );
 }); 
 
-const button = document.querySelector('.button');
+function recyclingImage(cardElement){
+  const button = cardElement.querySelector(".card__image");
+  const Popup = document.querySelector(".popup_type_image");
+  const cross= Popup.querySelector('.popup__close');
+  button.addEventListener('click', ()=>openModel(Popup));
+  cross.addEventListener("click", ()=>closeModel(Popup));
+  document.addEventListener('keydown', (e) => escape(e,Popup));
+  Popup.addEventListener('click', (e) => overlay(e,Popup));
+}
 
-button.addEventListener('click', function (evt) {
-    const eventTarget = evt.target;
-    eventTarget.setAttribute('disabled', true);
-}); 
+function recyclingButton(namebutton, namePopup){
+  const button = document.querySelector(namebutton);
+  const Popup =document.querySelector(namePopup);
+  const cross= Popup.querySelector('.popup__close');
+  button.addEventListener('click', ()=>openModel(Popup));
+  cross.addEventListener("click", ()=>closeModel(Popup));
+  document.addEventListener('keydown', (e) => escape(e,Popup));
+  Popup.addEventListener('click', (e) => overlay(e,Popup));
+}
+function openModel(pop){
+  pop.classList.add('popup_is-opened');
+}
+function closeModel(pop){
+  pop.classList.remove('popup_is-opened');
+}
+function escape(e,namePop){
+  if (e.key === "Escape") {
+    namePop.classList.remove('popup_is-opened');
+  }
+}
+function overlay(e,namePop){
+  if (e.target === namePop) {
+    namePop.classList.remove('popup_is-opened');
+    }
+}
+recyclingButton('.profile__edit-button', '.popup_type_edit');
+recyclingButton('.profile__add-button', '.popup_type_new-card');
