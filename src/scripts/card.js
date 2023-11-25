@@ -1,8 +1,8 @@
-import {placesList,openModelImage,openModal} from './index.js';
-export function createCard(card,cardTemplate){
+import {placesList,openModelImage,openModal } from './index.js';
+export function createCard(card,cardTemplate,handleDeleteCard, clickLike){
   const cardElement = cardTemplate.querySelector('.places__item').cloneNode(true); 
   cardElement.querySelector('.card__image').src = card.link;
-  cardElement.querySelector('.card__image').alt = card.alt;
+  cardElement.querySelector('.card__image').alt = card.name;
   const link=card.link;
   const name=card.name;
   cardElement.querySelector('.card__title').textContent = card.name;
@@ -17,17 +17,6 @@ export function createCard(card,cardTemplate){
 export function handleDeleteCard(elm){
   elm.remove();
 }
-  
-export function renderCard(cardElement){
-  placesList.append(cardElement);
-}
-
-export function openImagePopup(popupImage,link,name){
-  document.querySelector('.popup__image').src=link;
-  document.querySelector('.popup__caption').textContent=name;
-  openModal(popupImage);
-}
-
 export function clickLike(pop){
   if(!pop.classList.contains('card__like-button_is-active')){
     pop.classList.add('card__like-button_is-active'); 
