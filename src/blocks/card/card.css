@@ -13,3 +13,8 @@
   position: relative;
   overflow: hidden;
 }
+
+.card__like-quantity{
+  text-align: center;
+  margin: 3px 2px 0 0 ;
+}

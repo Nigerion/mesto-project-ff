@@ -9,8 +9,21 @@
   background-position: center;
   margin: 0 29px 0 0;
   /*Макет очень кривоват, как считать этот отступ я хз. Проявите тут лояльность пока что*/
+  
 }
-
+.profile__image-pencil{
+  display: none;
+  position: absolute;
+  bottom: 86px;
+  left: 46px;
+}
+.profile__image:hover{
+  opacity: 0.8;
+}
+.profile__image:hover .profile__image-pencil{
+  display: block;
+  
+}
 @media screen and (max-width: 740px) {
   .profile__image {
     margin: 0 10px 0 0;
