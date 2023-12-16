@@ -18,5 +18,5 @@
  * Локальный сервер
 ### **Актуальная версия Node.js (старше 16.14.0).**  
 ### **Актуальная версия пакетного менеджера npm (старше 8.5.4).**  
-[Ссылка на проек GitHub](https://github.com/Nigerion/mesto-project-ff)  
-[Ссылка на проек GitHub Pages]()
+[Ссылка на проект GitHub](https://github.com/Nigerion/mesto-project-ff)  
+[Ссылка на проект GitHub Pages]()
