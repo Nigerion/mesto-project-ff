@@ -91,13 +91,16 @@ export function handleFormSubmitPlace(evt) {
   evt.preventDefault();
   const name= namePlace.value;
   const link= linkPlace.value;
-  formPlace.querySelector('.popup__button').textContent='Сохранение...';
   addsCard(name,link)
   .then((data)=>{
+    formPlace.querySelector('.popup__button').textContent='Сохранение...';
     addedCardsToTheBeginning(createCard(data,cardTemplate,handleDeleteCard,clickLike,crossCloseImage,popupImage,data.owner['_id']) );
   })
   .catch((err)=>{
     console.log(err);
+  })
+  .finally(() => {
+    formPlace.querySelector('.popup__button').textContent='Сохранение';
   });
   closeModal(popupNewCard);
 }
@@ -158,14 +161,17 @@ function openModelImageProfile(imageProfile,popupImageProfileEdit,crossCloseImag
 function handleFormSubmitImageProfile(evt){
   evt.preventDefault();
   const link=document.querySelector('.popup__input_type_url_image').value;
-  formImageProfile.querySelector('.popup__button').textContent='Сохранение...';
   patchLinkImage(link)
   .then((res)=>{
     const profileImage = document.querySelector(".profile__image");
     profileImage.style.backgroundImage = `url('${link}')`;
+    formImageProfile.querySelector('.popup__button').textContent='Сохранение...';
   })
   .catch((err)=>{
     console.log(err);
+  })
+  .finally(() => {
+    formImageProfile.querySelector('.popup__button').textContent='Сохранение';
   });
   closeModal(popupImageEdit);
 }
@@ -180,14 +186,17 @@ export function handleFormSubmitProfile(evt) {
   evt.preventDefault();
   const name=nameInput.value;
   const job= jobInput.value;
-  formProfile.querySelector('.popup__button').textContent='Сохранение...';
   redesignsProfile(name,job)
   .then((res)=>{
     document.querySelector('.profile__title').textContent=name;
     document.querySelector('.profile__description').textContent=job;
+    formProfile.querySelector('.popup__button').textContent='Сохранение...';
   })
   .catch((err)=>{
     console.log(err);
+  })
+  .finally(() => {
+    formImageProfile.querySelector('.popup__button').textContent='Сохранение';
   });
   closeModal(popupEdit);
 }
