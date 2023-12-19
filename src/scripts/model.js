@@ -1,7 +1,8 @@
-import {validationConfig,clearValidation} from './index'
+import {validationConfig} from './index.js';
+// import {clearValidation} from './validation.js';
 // ф-ия открытия попапа 
 export function openModal(pop){
-  clearValidation(pop, validationConfig);
+  // clearValidation(pop, validationConfig);
   pop.classList.add('popup_is-opened');
   document.addEventListener('keydown',escape);
 }
@@ -11,7 +12,7 @@ export function closeModal(pop){
   document.removeEventListener('keydown',escape);
 }
 // ф-ия закрытия попапа на ескейап
-export function escape(e,pop){
+export function escape(e){
   if (e.key === "Escape") {
     const popup = document.querySelector('.popup_is-opened');
     closeModal(popup);
@@ -23,8 +24,6 @@ export function overlay(e,namePop){
     closeModal(namePop);
   }
 }
-
-
 
 
 

@@ -11,7 +11,9 @@ import '../pages/index.css';
 import {initialCards} from './cards.js';
 import {handleDeleteCard,clickLike,createCard} from './card.js';
 import {closeModal,escape,overlay,openModal} from './model.js';
-import {getUserData,getCardsData,redesignsProfile,addsCard,patchLinkImage } from './api.js';
+import {enableValidation , clearValidation} from './validation.js';
+import {getUserData,getCardsData,redesignsProfile,addsCard,patchLinkImage,getUserDataSave} from './api.js';
+import { data } from 'autoprefixer';
 const logoImage = new URL('../images/logo.svg', import.meta.url);
 const avatarImage = new URL('../images/avatar.jpg', import.meta.url);
 const whoIsTheGoat = [
@@ -68,13 +70,15 @@ const profileImage=document.querySelector('.profile__image');
 const profileDescription=document.querySelector('.profile__description');
 const clickProfileImage=document.querySelector(".profile__image")
 const popupProfileImage=document.querySelector(".popup_type_edit-image")
+const imagePopup =document.querySelector('.popup__image');
+const captionPopup=document.querySelector('.popup__caption');
 
-Promise.all([getCardsData(),getUserData()])
-.then(([cardData,UserData])=>{
-  profileTitle.textContent=UserData.name;
-  profileImage.style.backgroundImage= `url('${UserData.avatar}')`;
-  profileDescription.textContent=UserData.about;
-  const idUser= UserData['_id'];
+ Promise.all([getCardsData(),getUserData()])
+.then(([cardData,userData])=>{
+  profileTitle.textContent=userData.name;
+  profileImage.style.backgroundImage= `url('${userData.avatar}')`;
+  profileDescription.textContent=userData.about;
+  const idUser= userData['_id'];
   for (let card of cardData){
     renderCard(createCard(card,cardTemplate,handleDeleteCard,clickLike,crossCloseImage,popupImage,idUser) )
   }
@@ -82,16 +86,19 @@ Promise.all([getCardsData(),getUserData()])
 .catch(err=>{
   console.log(err);
 })
-// ф-ия создания и добавления крточки
+//  ф-ия создания и добавления крточки
 export function handleFormSubmitPlace(evt) {
   evt.preventDefault();
   const name= namePlace.value;
   const link= linkPlace.value;
-  const card={name,link};
-  const idUser='a3442c9c-1d98-4987-b2c5-54a8880f1608';
-  addsCard(name,link);
   formPlace.querySelector('.popup__button').textContent='Сохранение...';
-  addedCardsToTheBeginning(createCard(card,cardTemplate,handleDeleteCard,clickLike,crossCloseImage,popupImage,idUser) );
+  addsCard(name,link)
+  .then((data)=>{
+    addedCardsToTheBeginning(createCard(data,cardTemplate,handleDeleteCard,clickLike,crossCloseImage,popupImage,data.owner['_id']) );
+  })
+  .catch((err)=>{
+    console.log(err);
+  });
   closeModal(popupNewCard);
 }
 // ф-ия добавления одной картинки 
@@ -110,9 +117,9 @@ export function renderCard(cardElement){
 }
 // ф-ия открытия картинки, замены ссылки, описания и подписи
 export function openImagePopup(popupImage,link,name){
-  document.querySelector('.popup__image').src=link;
-  document.querySelector('.popup__image').alt=name;
-  document.querySelector('.popup__caption').textContent=name;
+  imagePopup.src=link;
+  imagePopup.alt=name;
+  captionPopup.textContent=name;
   openModal(popupImage);
 }
 crossCloseImage.addEventListener("click", ()=>closeModal(popupImage));
@@ -123,6 +130,10 @@ export function openProfilePopup(pop){
   const form =document.forms["edit-profile"];
   form.elements.name.value=document.querySelector('.profile__title').textContent;
   form.elements.description.value=document.querySelector('.profile__description').textContent;
+  // 
+  // 
+  // 
+  clearValidation(pop, validationConfig);
   openModal(pop);
 }
 
@@ -135,6 +146,10 @@ export const popupImageEdit =document.querySelector(".popup_type_edit-image");
 formImageProfile.addEventListener('submit', handleFormSubmitImageProfile);
 // ф-ия открытия и закрытия окна аватарки 
 function openModelImageProfile(imageProfile,popupImageProfileEdit,crossCloseImageProfile){
+  // 
+  // 
+  // 
+  clearValidation(popupImageProfileEdit, validationConfig);
   imageProfile.addEventListener('click', ()=>openModal(popupImageProfileEdit));
   popupImageProfileEdit.addEventListener('click', (e) => overlay(e,popupImageProfileEdit));
   crossCloseImageProfile.addEventListener('click' ,(e)=> closeModal(popupImageProfileEdit));
@@ -143,8 +158,15 @@ function openModelImageProfile(imageProfile,popupImageProfileEdit,crossCloseImag
 function handleFormSubmitImageProfile(evt){
   evt.preventDefault();
   const link=document.querySelector('.popup__input_type_url_image').value;
-  patchLinkImage(link);
   formImageProfile.querySelector('.popup__button').textContent='Сохранение...';
+  patchLinkImage(link)
+  .then((res)=>{
+    const profileImage = document.querySelector(".profile__image");
+    profileImage.style.backgroundImage = `url('${link}')`;
+  })
+  .catch((err)=>{
+    console.log(err);
+  });
   closeModal(popupImageEdit);
 }
 // ф-ия в которой вешуются обработчики кликов на открытие и закрытие 
@@ -159,99 +181,15 @@ export function handleFormSubmitProfile(evt) {
   const name=nameInput.value;
   const job= jobInput.value;
   formProfile.querySelector('.popup__button').textContent='Сохранение...';
-  redesignsProfile(name,job);
-  document.querySelector('.profile__title').textContent=name;
-  document.querySelector('.profile__description').textContent=job;
+  redesignsProfile(name,job)
+  .then((res)=>{
+    document.querySelector('.profile__title').textContent=name;
+    document.querySelector('.profile__description').textContent=job;
+  })
+  .catch((err)=>{
+    console.log(err);
+  });
   closeModal(popupEdit);
 }
-// Функция, которая добавляет класс с ошибкой
-const showInputError = (formElement, inputElement, errorMessage, parametr) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add(parametr.inputErrorClass);
-  // ошибка типа ввода формы
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add(parametr.errorClass);
-  // тип ввода активной формы 
-};
-// Функция, которая удаляет класс с ошибкой
-const hideInputError = (formElement, inputElement, parametr) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove(parametr.inputErrorClass);
-  // ошибка типа ввода формы 
-  errorElement.classList.remove(parametr.errorClass);
-  // тип ввода активной формы 
-  errorElement.textContent = '';
-};
-// Функция, которая проверяет валидность
-const checkInputValidity = (formElement, inputElement, parametr) => {
-  if (inputElement.validity.patternMismatch) {
-    inputElement.setCustomValidity(inputElement.dataset.errorMessage);
-  } else {
-    inputElement.setCustomValidity("");
-  }
-  if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage,parametr);
-  } else {
-    hideInputError(formElement, inputElement,parametr);
-  }
-};
-// каждому полю добавим обработчик события input
-const setEventListeners = (formElement , parametr) => {
-  const inputList = Array.from(formElement.querySelectorAll(parametr.inputSelector));
-  const buttonElement = formElement.querySelector(parametr.submitButtonSelector);
-  toggleButtonState(inputList,buttonElement,parametr);
-  inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', function () {
-      checkInputValidity(formElement, inputElement,parametr);
-      toggleButtonState(inputList,buttonElement,parametr)
-    });
-  });
-};
-//Функция принимает массив полей
-const hasInvalidInput = (inputList)=>{
-  return inputList.some((inputElement)=>{
-    return !inputElement.validity.valid;
-  })
-}
-// Функция принимает массив полей ввода
-// и элемент кнопки, состояние которой нужно менять
-const toggleButtonState = (inputList, buttonElement, parametr) =>{
-  if (hasInvalidInput(inputList)){
-    buttonElement.disabled = true;
-    buttonElement.classList.add(parametr.inactiveButtonClass)
-    // кнопка неактивна
-  }
-  else{
-    buttonElement.disabled = false;
-    buttonElement.classList.remove(parametr.inactiveButtonClass)
-    // кнопка неактивна
-  }
-}
-
-// ф-ия очищает ошибки валидации 
-export const clearValidation=(formElement, validationConfig)=>{
-  const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
-  const buttonElement = formElement.querySelector(validationConfig.submitButtonSelector);
-  inputList.forEach((inputElement) => {
-    hideInputError(formElement, inputElement,validationConfig);
-    buttonElement.disabled = true;
-    buttonElement.classList.add(validationConfig.inactiveButtonClass)
-  });
-}
-// ф-ия валидирует поля 
-const enableValidation = (parametr) => { 
-  const formList = Array.from(document.querySelectorAll(parametr.formSelector));
-  // нашел все формы 
-  formList.forEach((formElement) => {
-    formElement.addEventListener('submit', function (evt) {
-      evt.preventDefault();
-    });
-    formList.forEach((formElement) => {
-      setEventListeners(formElement, parametr);
-    });
-    // преберает формы и к каждой вызывате ф-ию setEventListner
-  });
-};
 
 enableValidation(validationConfig);
-

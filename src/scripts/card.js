@@ -8,7 +8,7 @@ export function createCard(card,cardTemplate,handleDeleteCard,clickLike,crossClo
   cardElement.querySelector('.card__like-quantity').textContent=card.likes?card.likes.length:0;
   const link=card.link;
   const name=card.name;
-  const idCard=card['_id']?card.owner['_id']:'a3442c9c-1d98-4987-b2c5-54a8880f1608';
+  const idCard=card.owner['_id'];
   cardElement.querySelector('.card__title').textContent = card.name;
   const like = cardElement.querySelector('.card__like-button');
   const cardDelete= cardElement.querySelector('.card__delete-button');
@@ -25,17 +25,38 @@ export function createCard(card,cardTemplate,handleDeleteCard,clickLike,crossClo
 }
 // ф-ия которая удаляет элемент 
 export function handleDeleteCard(elm,id){
-  elm.remove();
-  removeCard(id);
+  removeCard(id,elm)
+  .then((res)=>{
+    elm.remove();
+  })
+  .catch((err)=>{
+    console.log(err)
+  });
 }
 // ф-ия клика на лайк
-export function clickLike(pop,id,cardElement){
-  if(!pop.classList.contains('card__like-button_is-active')){
-    pop.classList.add('card__like-button_is-active');
-    toPutLike(id,cardElement);
+export function clickLike(like,id,cardElement){
+  if(!like.classList.contains('card__like-button_is-active')){
+    like.classList.add('card__like-button_is-active');
+    toPutLike(id,cardElement)
+    .then((res)=>{
+      // let like = cardElement.querySelector(".card__like-quantity").textContent;
+      console.log(res.likes.length);
+      cardElement.querySelector(".card__like-quantity").textContent = res.likes.length;
+    })
+    .catch((err)=>{
+      console.log(err)
+    });
   }
   else{
-    pop.classList.remove('card__like-button_is-active');
-    removeLike(id,cardElement);
+    like.classList.remove('card__like-button_is-active');
+    removeLike(id,cardElement)
+    .then((res)=>{
+      // let like = cardElement.querySelector(".card__like-quantity").textContent;
+      console.log(res.likes.length);
+        cardElement.querySelector(".card__like-quantity").textContent =res.likes.length ;
+    })
+    .catch((err)=>{
+      console.log(err)
+    });
   }
 }
