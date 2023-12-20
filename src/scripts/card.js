@@ -36,10 +36,9 @@ export function handleDeleteCard(elm,id){
 // ф-ия клика на лайк
 export function clickLike(like,id,cardElement){
   if(!like.classList.contains('card__like-button_is-active')){
-    like.classList.add('card__like-button_is-active');
     toPutLike(id,cardElement)
     .then((res)=>{
-      // let like = cardElement.querySelector(".card__like-quantity").textContent;
+      like.classList.add('card__like-button_is-active');
       console.log(res.likes.length);
       cardElement.querySelector(".card__like-quantity").textContent = res.likes.length;
     })
@@ -48,10 +47,9 @@ export function clickLike(like,id,cardElement){
     });
   }
   else{
-    like.classList.remove('card__like-button_is-active');
     removeLike(id,cardElement)
     .then((res)=>{
-      // let like = cardElement.querySelector(".card__like-quantity").textContent;
+      like.classList.remove('card__like-button_is-active');
       console.log(res.likes.length);
         cardElement.querySelector(".card__like-quantity").textContent =res.likes.length ;
     })
