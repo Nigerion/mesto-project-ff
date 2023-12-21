@@ -44,11 +44,11 @@ export const config ={
   }
 };
 
-const buttonOpenPopupProfile = document.querySelector('.profile__add-button'); //buttonOpenPopupProfile+
-const popupAddNewCard = document.querySelector(".popup_type_new-card");//popupAddNewCard+
+const buttonOpenPopupProfile = document.querySelector('.profile__add-button');
+const popupAddNewCard = document.querySelector(".popup_type_new-card");
 const crossCloseProfileAdd=popupAddNewCard.querySelector('.popup__close');
-const buttonOpenFormProfile = document.querySelector('.profile__edit-button');//buttonOpenFormProfile+
-const popupEditProfile =document.querySelector('.popup_type_edit');//popupEditProfile
+const buttonOpenFormProfile = document.querySelector('.profile__edit-button');
+const popupEditProfile =document.querySelector('.popup_type_edit');
 const crossCloseProfileEdit= popupEditProfile.querySelector('.popup__close');
 openModelProfileAndAddCard(buttonOpenPopupProfile,  popupAddNewCard,crossCloseProfileAdd);
 openModelProfileAndAddCard(buttonOpenFormProfile, popupEditProfile,crossCloseProfileEdit);
@@ -68,14 +68,13 @@ export const crossCloseImage= popupImage.querySelector('.popup__close');
 const profileTitle=document.querySelector('.profile__title');
 const profileImage=document.querySelector('.profile__image');
 const profileDescription=document.querySelector('.profile__description');
-// const clickProfileImage=document.querySelector(".profile__image")//
-// const popupProfileImage=document.querySelector(".popup_type_edit-image")//
 const imagePopup =document.querySelector('.popup__image');
 const captionPopup=document.querySelector('.popup__caption');
 const form =document.forms["edit-profile"];
 const link=document.querySelector('.popup__input_type_url_image');
-const ImageProfile = document.querySelector(".profile__image");
-
+const imageProfile=document.querySelector('.profile__image');
+const buttonSumbitRequestAddCards=formPlace.querySelector('.popup__button');
+const buttonSumbitRequestEdit= formProfile.querySelector('.popup__button');
 Promise.all([getCardsData(),getUserData()])
 .then(([cardData,userData])=>{
   profileTitle.textContent=userData.name;
@@ -94,7 +93,7 @@ export function handleFormSubmitPlace(evt) {
   evt.preventDefault();
   const name= namePlace.value;
   const link= linkPlace.value;
-  formPlace.querySelector('.popup__button').textContent='Сохранение...';
+  buttonSumbitRequestAddCards.textContent='Сохранение...';
   addsCard(name,link)
   .then((data)=>{
     addedCardsToTheBeginning(createCard(data,cardTemplate,handleDeleteCard,clickLike,crossCloseImage,popupImage,data.owner['_id']) );
@@ -104,7 +103,7 @@ export function handleFormSubmitPlace(evt) {
     console.log(err);
   })
   .finally(() => {
-    formPlace.querySelector('.popup__button').textContent='Сохранение';
+    buttonSumbitRequestAddCards.textContent='Сохранение';
   });
 }
 // ф-ия добавления одной картинки 
@@ -133,19 +132,16 @@ popupImage.addEventListener('click', (e) => overlay(e,popupImage));
 
 // ф-ия открытия редактирования профиля
 export function openProfilePopup(pop){
-  // const form =document.forms["edit-profile"];
-  form.elements.name.value=document.querySelector('.profile__title').textContent;
-  form.elements.description.value=document.querySelector('.profile__description').textContent;
+  form.elements.name.value=profileTitle.textContent;
+  form.elements.description.value=profileDescription.textContent;
   clearValidation(pop, validationConfig);
   openModal(pop);
 }
-
-const imageProfile=document.querySelector('.profile__image'); 
-const popupEditAvatar=document.querySelector('.popup_type_edit-image');//popupEditAvatar+
+ 
+const popupEditAvatar=document.querySelector('.popup_type_edit-image');
 const crossCloseImageProfile= popupEditAvatar.querySelector('.popup__close');
 openModelImageProfile(imageProfile,popupEditAvatar,crossCloseImageProfile);
-export const formEditAvatar = document.forms["edit-profile-image"];//formEditAvatar+
-// export const popupImageEdit =document.querySelector(".popup_type_edit-image"); //popupEditAvatar 2 +
+export const formEditAvatar = document.forms["edit-profile-image"];
 const imageSaveForm=formEditAvatar.querySelector('.popup__button');
 
 formEditAvatar.addEventListener('submit', handleFormSubmitImageProfile);
@@ -159,12 +155,10 @@ function openModelImageProfile(imageProfile,popupEditAvatar,crossCloseImageProfi
 // ф-ия закрытия аватарки
 function handleFormSubmitImageProfile(evt){
   evt.preventDefault();
-  // const link=document.querySelector('.popup__input_type_url_image').value;
   imageSaveForm.textContent='Сохранение...';
   patchLinkImage(link.value)
   .then((res)=>{
-    // const profileImage = document.querySelector(".profile__image");
-    ImageProfile.style.backgroundImage = `url('${link.value}')`;
+    imageProfile.style.backgroundImage = `url('${link.value}')`;
   })
   .catch((err)=>{
     console.log(err);
@@ -175,17 +169,17 @@ function handleFormSubmitImageProfile(evt){
   closeModal(popupEditAvatar);
 }
 // ф-ия в которой вешуются обработчики кликов на открытие и закрытие 
-export function openModelProfileAndAddCard(clickProfile,popupProfile,crossCloseProfile){
-  clickProfile.addEventListener('click', ()=>openProfilePopup(popupProfile));
-  popupProfile.addEventListener('click', (e) => overlay(e,popupProfile));
-  crossCloseProfile.addEventListener('click' ,(e)=> closeModal(popupProfile));
+export function openModelProfileAndAddCard(button,popup,crossClose){
+  button.addEventListener('click', ()=>openProfilePopup(popup));
+  popup.addEventListener('click', (e) => overlay(e,popup));
+  crossClose.addEventListener('click' ,(e)=> closeModal(popup));
 }
 // ф-я меняет имя и работу
 export function handleFormSubmitProfile(evt) {
   evt.preventDefault();
   const name=nameInput.value;
   const job= jobInput.value;
-  formProfile.querySelector('.popup__button').textContent='Сохранение...';
+  buttonSumbitRequestEdit.textContent='Сохранение...';
   redesignsProfile(name,job)
   .then((res)=>{
     profileTitle.textContent=name;
@@ -195,7 +189,7 @@ export function handleFormSubmitProfile(evt) {
     console.log(err);
   })
   .finally(() => {
-    formProfile.querySelector('.popup__button').textContent='Сохранение';
+    buttonSumbitRequestEdit.textContent='Сохранение';
   });
   closeModal(popupEdit);
 }
