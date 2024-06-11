@@ -32,9 +32,19 @@ HTML, CSS , JS, Webpack
 # Какие планы по доработке проекта
 -Добавить попап удаления карточки
 # Установка и запуск
-
+Клонируем репозиторию к себе<br>
+`git clone https://github.com/Nigerion/mesto-project-ff.git`<br>
+Заходим в папку проекта <br>
+`cd mesto-project-ff`<br>
+Запускаем сборку <br>
+`npm build`<br>
+Запускаем сервер<br>
+`npm dev`<br>
 # Доступные скрипты
-
+`npm build`<br>
+`npm dev`<br>
+`npm predeploy`<br>
+`npm deploy`<br>
 # Ссылка на макет, GitHub и GitHub Page:
 Макет<br>
 [![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)](<[https://www.figma.com/file/vIywAvqfkOIRWGOkfOnReY/React-Fullstack_-Проектные-задачи-(3-месяца)_external_link?type=design&node-id=0-1&mode=design](https://www.figma.com/design/bjyvbKKJN2naO0ucURl2Z0/JavaScript.-Sprint-5?node-id=0-1&t=xYrbFPflViCpgfQl-0)>) <br>
