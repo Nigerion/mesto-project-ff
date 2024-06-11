@@ -30,13 +30,19 @@ Mesto - это сервис с интерактивной страницей, г
 # Технологии
 HTML, CSS , JS, Webpack
 # Какие планы по доработке проекта
+-Добавить попап удаления карточки
 # Установка и запуск
+
 # Доступные скрипты
-# Ссылка на макет и чеклист
 
-
-
-
+# Ссылка на макет, GitHub и GitHub Page:
+Макет<br>
+[![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)](<[https://www.figma.com/file/vIywAvqfkOIRWGOkfOnReY/React-Fullstack_-Проектные-задачи-(3-месяца)_external_link?type=design&node-id=0-1&mode=design](https://www.figma.com/design/bjyvbKKJN2naO0ucURl2Z0/JavaScript.-Sprint-5?node-id=0-1&t=xYrbFPflViCpgfQl-0)>) <br>
+GitHub<br>
+[![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Nigerion/mesto-project-ff)<br>
+GitHub Page<br>
+[![Github Pages](https://img.shields.io/badge/github%20pages-121013?style=for-the-badge&logo=github&logoColor=white)](https://nigerion.github.io/mesto-project-ff/)<br>
+<!--
 # Проектная работа Mesto
 ## Описание проекта 
 Данный проект был сделан для достижения определенной цели. Целью является :
@@ -64,7 +70,7 @@ HTML, CSS , JS, Webpack
 [Ссылка на проект GitHub Pages](https://nigerion.github.io/mesto-project-ff/)
 ![Github Pages](https://img.shields.io/badge/github%20pages-121013?style=for-the-badge&logo=github&logoColor=white)
 
-
+-->
 
 
 
