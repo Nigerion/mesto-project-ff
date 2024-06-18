@@ -1,9 +1,9 @@
 # Площадка для обмена фотографиями и изображениями с другими пользователями.
 
-# О проекте
-Mesto - это сервис с интерактивной страницей, где пользователи могут загружать, удалять и оценивать фотографии.
+## О проекте
 ![image](https://github.com/Nigerion/mesto-project-ff/assets/115921794/d9a81ee0-7f15-4106-bbe6-5519610f15a6)
-# Что было сделано
+Mesto - это сервис с интерактивной страницей, где пользователи могут загружать, удалять и оценивать фотографии.
+## Что было сделано
 1. Написана функция, которая принимает данные одной карточки и функцию обратного вызова для удаления, и возвращает готовый к отображению элемент карточки.
 2. Реализована функция удаления карточки, которая передается при создании карточки и вызывается при клике на иконку.
 3. Создан механизм открытия и закрытия всплывающего окна.
@@ -29,29 +29,52 @@ Mesto - это сервис с интерактивной страницей, г
 
 # Технологии
 HTML, CSS , JS, Webpack
-# Какие планы по доработке проекта
--Добавить попап удаления карточки
-# Установка и запуск
-Клонируем репозиторию к себе<br>
-`git clone https://github.com/Nigerion/mesto-project-ff.git`<br>
-Заходим в папку проекта <br>
-`cd mesto-project-ff`<br>
-Запускаем сборку <br>
-`npm build`<br>
-Запускаем сервер<br>
-`npm dev`<br>
-# Доступные скрипты
-`npm build`<br>
-`npm dev`<br>
-`npm predeploy`<br>
-`npm deploy`<br>
-# Ссылка на макет, GitHub и GitHub Page:
+
+## Установка и запуск
+Для установки и запуска проекта необходимо выполнить команды
+
+```
+npm install
+npm dev
+```
+
+или
+
+```
+yarn
+yarn dev
+```
+## Сборка
+
+```
+npm run build
+```
+
+или
+
+```
+yarn build
+```
+## Статус проекта
+На данный момент планируется следующее: 
+- Добавить попап удаления карточки
+
+## Доступные скрипты
+```
+npm build
+npm dev
+npm predeploy
+npm deploy
+```
+
+## Ссылка на макет, GitHub и GitHub Page:
 Макет<br>
 [![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)](<[https://www.figma.com/file/vIywAvqfkOIRWGOkfOnReY/React-Fullstack_-Проектные-задачи-(3-месяца)_external_link?type=design&node-id=0-1&mode=design](https://www.figma.com/design/bjyvbKKJN2naO0ucURl2Z0/JavaScript.-Sprint-5?node-id=0-1&t=xYrbFPflViCpgfQl-0)>) <br>
 GitHub<br>
 [![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Nigerion/mesto-project-ff)<br>
 GitHub Page<br>
 [![Github Pages](https://img.shields.io/badge/github%20pages-121013?style=for-the-badge&logo=github&logoColor=white)](https://nigerion.github.io/mesto-project-ff/)<br>
+
 <!--
 # Проектная работа Mesto
 ## Описание проекта 
